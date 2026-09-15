@@ -1,0 +1,27 @@
+{
+  "common": {
+    "appName": "App Starter",
+    "home": "首页",
+    "playground": "联调台",
+    "login": "登录",
+    "logout": "退出",
+    "loading": "加载中...",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确定",
+    "success": "操作成功",
+    "theme": "主题",
+    "language": "语言"
+  },
+  "home": {
+    "title": "从这里开始构建",
+    "subtitle": "Vue3 + Vite + Tailwind + Express + SQLite，开箱即用的全栈骨架。",
+    "cta": "查看联调台",
+    "featureStack": "技术栈",
+    "featureStackDesc": "前端 Vue3 组合式 API、Vue Router、Tailwind 玻璃拟态设计系统；后端 Express + SQLite + JWT。",
+    "featureTooling": "工程化",
+    "featureToolingDesc": "一键安装、并行开发、一键构建、一键生成新项目的脚手架脚本。",
+    "featureGame": "游戏就绪",
+    "featureGameDesc": "内置 useGameLoop 主循环（rAF + FPS 统计），可直接在联调台验证。"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "common": {
+    "appName": "App Starter",
+    "home": "Home",
+    "playground": "Playground",
+    "login": "Login",
+    "logout": "Logout",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "success": "Success",
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "home": {
+    "title": "Build from here",
+    "subtitle": "Vue3 + Vite + Tailwind + Express + SQLite — a full-stack skeleton that just works.",
+    "cta": "Open Playground",
+    "featureStack": "Stack",
+    "featureStackDesc": "Vue3 composition API, Vue Router, Tailwind glassmorphism design system, plus Express + SQLite + JWT.",
+    "featureTooling": "Tooling",
+    "featureToolingDesc": "One-command install, parallel dev servers, one-command build and project scaffolding.",
+    "featureGame": "Game ready",
+    "featureGameDesc": "Ships with useGameLoop (rAF loop + FPS counter) — try it in the Playground."
+  }
+}

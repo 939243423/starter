@@ -1,0 +1,39 @@
+{
+  "name": "starter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "全栈应用 / 游戏初始化模板：Vue3 + Vite + Tailwind + Express + SQLite + JWT",
+  "keywords": [
+    "starter",
+    "template",
+    "boilerplate",
+    "vue3",
+    "vite",
+    "tailwindcss",
+    "express",
+    "sqlite",
+    "jwt",
+    "fullstack"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/939243423/starter.git"
+  },
+  "homepage": "https://github.com/939243423/starter#readme",
+  "bugs": {
+    "url": "https://github.com/939243423/starter/issues"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "node scripts/dev.mjs web",
+    "dev:api": "node scripts/dev.mjs api",
+    "build": "node scripts/build.mjs",
+    "create": "node scripts/create-app.mjs",
+    "clean": "node scripts/clean.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
