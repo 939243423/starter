@@ -123,9 +123,11 @@ Copy `.env.example` to `.env` (the generator does it for you):
 
 Vercel builds the **frontend only**. The API needs a host with a writable disk, because SQLite is a native module backed by a file.
 
-- **Root Directory**: `frontend` (recommended). If you deploy from the repo root, the included `vercel.json` already pins install → build → output to `frontend`, and `.vercelignore` excludes `backend`
+- **Root Directory**: `frontend`, or leave it empty (repo root) — the bundled root `vercel.json` pins install → build → output to `frontend`, and `.vercelignore` excludes `backend`
 - **Build settings**: auto-detected as Vite (`npm install` · `npm run build` · output `dist`)
 - **Environment variable**: set `VITE_API_BASE` to your API origin, e.g. `https://api.example.com`
+
+> ⚠️ Never point Root Directory at `backend`. Vercel would run the frontend commands inside `backend/` and fail with `ENOENT .../backend/frontend/package.json`. The API is not meant for serverless anyway (see below).
 
 > Without those files, Vercel installs the backend as well and `sqlite3` fails to compile (no `distutils`, no toolchain) — that is exactly what the root `vercel.json` prevents.
 
@@ -152,6 +154,8 @@ The frontend image builds with Vite and serves static files through Nginx (SPA f
 npm config set sqlite3_binary_host_mirror https://npmmirror.com/mirrors/sqlite3
 ```
 or build from source (`npm rebuild sqlite3 --build-from-source`, needs a C++ toolchain). If another project on this machine already has `sqlite3@5.x` installed, copying its `node_modules/sqlite3` over and running `npm install --ignore-scripts` also works.
+
+**Vercel fails with `ENOENT ... /backend/frontend/package.json`** — Root Directory is set to `backend`. Change it to `frontend`, or clear it and let the root `vercel.json` drive the build.
 
 **Vercel build fails with `gyp ERR!` or `No module named 'distutils'`** — the backend is being installed on a platform that cannot compile `sqlite3`. Deploy with Root Directory set to `frontend`, or keep the repo root and rely on the bundled `vercel.json` + `.vercelignore`. See [Deploy the frontend to Vercel](#deploy-the-frontend-to-vercel).
 

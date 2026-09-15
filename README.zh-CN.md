@@ -123,9 +123,11 @@ npm run dev       # 前端 http://localhost:5173   后端 http://localhost:3000
 
 Vercel 只负责**前端**。后端要留在有可写磁盘的机器上，因为 SQLite 是带文件的原生模块。
 
-- **Root Directory**：填 `frontend`（推荐）。若从仓库根部署也没问题 —— 根目录的 `vercel.json` 已把 install / build / 产物固定到 `frontend`，`.vercelignore` 会排除 `backend`
+- **Root Directory**：填 `frontend`，或留空（仓库根）—— 根目录的 `vercel.json` 已把 install / build / 产物固定到 `frontend`，`.vercelignore` 会排除 `backend`
 - **构建设置**：Vercel 自动识别为 Vite（`npm install` · `npm run build` · 产物 `dist`）
 - **环境变量**：设置 `VITE_API_BASE` 指向你的后端地址，例如 `https://api.example.com`
+
+> ⚠️ 千万不要把 Root Directory 设成 `backend`。那样 Vercel 会在 `backend/` 里执行前端命令，直接报 `ENOENT .../backend/frontend/package.json`。后端本来也不适合跑在 Serverless（见下）。
 
 > 没有这两个文件时，Vercel 会连带安装 backend，sqlite3 因缺少编译环境（无 `distutils`、无工具链）直接编译失败 —— 根目录的 `vercel.json` 就是为了避开这个坑。
 
@@ -152,6 +154,8 @@ docker compose up -d --build    # 前端 :8080，后端 :3000
 npm config set sqlite3_binary_host_mirror https://npmmirror.com/mirrors/sqlite3
 ```
 或本地编译（`npm rebuild sqlite3 --build-from-source`，需要 C++ 工具链）。若机器上已有装好 `sqlite3@5.x` 的项目，也可直接复制其 `node_modules/sqlite3` 后执行 `npm install --ignore-scripts`。
+
+**Vercel 报 `ENOENT ... /backend/frontend/package.json`** —— Root Directory 被设成了 `backend`。改成 `frontend`，或者清空让它走根目录的 `vercel.json`。
 
 **Vercel 构建报 `gyp ERR!` 或 `No module named 'distutils'`** —— 说明后端也被安装了，而该平台编译不了 `sqlite3`。把 Root Directory 设为 `frontend`，或者从仓库根部署并依赖自带的 `vercel.json` + `.vercelignore`。详见[部署前端到 Vercel](#部署前端到-vercel)。
 
