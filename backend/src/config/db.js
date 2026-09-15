@@ -1,4 +1,12 @@
-const sqlite3 = require('sqlite3').verbose()
+// sqlite3 是原生模块：装不上（缺编译环境 / Serverless 平台）时给出可行动的提示，而不是抛一堆栈
+let sqlite3
+try {
+  sqlite3 = require('sqlite3').verbose()
+} catch (err) {
+  console.error('[db] 无法加载 sqlite3，原因：', err.message)
+  console.error('[db] 处理建议：本机执行 `cd backend && npm install`；若为 Serverless 平台（Vercel 等）无编译环境或无持久磁盘，请改用外部数据库。')
+  process.exit(1)
+}
 const fs = require('node:fs')
 const path = require('node:path')
 const env = require('./env')

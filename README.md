@@ -119,7 +119,25 @@ Copy `.env.example` to `.env` (the generator does it for you):
 | `DB_FILE` | `backend/data/app.db` | SQLite file path |
 | `VITE_API_BASE` | `/api` | Frontend API base (proxied by Vite in dev) |
 
-## Deploy with Docker
+## Deploy the frontend to Vercel
+
+Vercel builds the **frontend only**. The API needs a host with a writable disk, because SQLite is a native module backed by a file.
+
+- **Root Directory**: `frontend` (recommended). If you deploy from the repo root, the included `vercel.json` already pins install → build → output to `frontend`, and `.vercelignore` excludes `backend`
+- **Build settings**: auto-detected as Vite (`npm install` · `npm run build` · output `dist`)
+- **Environment variable**: set `VITE_API_BASE` to your API origin, e.g. `https://api.example.com`
+
+> Without those files, Vercel installs the backend as well and `sqlite3` fails to compile (no `distutils`, no toolchain) — that is exactly what the root `vercel.json` prevents.
+
+### Where to run the API
+
+| Option | Fit |
+| --- | --- |
+| VPS / Docker host | Best — see the compose file below |
+| Render · Railway · Fly.io with a volume | Good — `backend/Dockerfile` is ready |
+| Vercel Functions · Lambda | Not with SQLite: no persistent disk and no native builds. Swap `backend/src/config/db.js` for a hosted database (Postgres / Turso / Neon); controllers stay unchanged |
+
+## Deploy with Docker (full stack)
 
 ```bash
 docker compose up -d --build    # web → :8080, api → :3000
@@ -134,6 +152,8 @@ The frontend image builds with Vite and serves static files through Nginx (SPA f
 npm config set sqlite3_binary_host_mirror https://npmmirror.com/mirrors/sqlite3
 ```
 or build from source (`npm rebuild sqlite3 --build-from-source`, needs a C++ toolchain). If another project on this machine already has `sqlite3@5.x` installed, copying its `node_modules/sqlite3` over and running `npm install --ignore-scripts` also works.
+
+**Vercel build fails with `gyp ERR!` or `No module named 'distutils'`** — the backend is being installed on a platform that cannot compile `sqlite3`. Deploy with Root Directory set to `frontend`, or keep the repo root and rely on the bundled `vercel.json` + `.vercelignore`. See [Deploy the frontend to Vercel](#deploy-the-frontend-to-vercel).
 
 **Port already in use** — `npm run dev` checks 3000/5173 up front and tells you what to do. Change `PORT` in `.env` for the API, or `server.port` in `frontend/vite.config.js` for the web (keep the proxy target in sync).
 

@@ -1,0 +1,9 @@
+# Vercel 只部署前端：后端含 sqlite3 原生模块，不参与构建
+backend
+node_modules
+frontend/node_modules
+.git
+.github
+dist
+*.log
+*.db
